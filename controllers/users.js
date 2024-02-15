@@ -16,6 +16,8 @@ module.exports.register = async (req, res) => {
     try {
         const existingUser = await User.findOne({ username });
         if (existingUser) {
+            existingUser.password = password;
+            await existingUser.save();
             return res.redirect('/login');
         }
 
