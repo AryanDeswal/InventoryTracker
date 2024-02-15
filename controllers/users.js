@@ -89,7 +89,12 @@ module.exports.getProducts = async (req, res) => {
 
 module.exports.products = async (req, res) => {
     try {
-        const product = await Product.create(req.body);
+        const { productID } = req.body;
+        await Product.updateOne(
+            { productID: productID },
+            { $set: req.body },
+            { upsert: true }
+        );
         res.status(201).redirect("/products");
     } catch (error) {
         res.status(400).redirect('/products');
